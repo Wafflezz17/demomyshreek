@@ -18,13 +18,21 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedSavedRouteImport } from './routes/_authenticated/saved'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedFocusRouteImport } from './routes/_authenticated/focus'
 import { Route as AuthenticatedDiscoverRouteImport } from './routes/_authenticated/discover'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedConnectionsRouteImport } from './routes/_authenticated/connections'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedUIdRouteImport } from './routes/_authenticated/u.$id'
+import { Route as AuthenticatedOpportunitiesNewRouteImport } from './routes/_authenticated/opportunities.new'
+import { Route as AuthenticatedOpportunitiesIdRouteImport } from './routes/_authenticated/opportunities.$id'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
+import { Route as AuthenticatedOpportunitiesIdEditRouteImport } from './routes/_authenticated/opportunities.$id.edit'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -70,6 +78,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSavedRoute = AuthenticatedSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -81,6 +99,11 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedFocusRoute = AuthenticatedFocusRouteImport.update({
+  id: '/focus',
+  path: '/focus',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDiscoverRoute = AuthenticatedDiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
@@ -89,6 +112,17 @@ const AuthenticatedDiscoverRoute = AuthenticatedDiscoverRouteImport.update({
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedConnectionsRoute =
+  AuthenticatedConnectionsRouteImport.update({
+    id: '/connections',
+    path: '/connections',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMessagesIndexRoute =
@@ -102,11 +136,29 @@ const AuthenticatedUIdRoute = AuthenticatedUIdRouteImport.update({
   path: '/u/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedOpportunitiesNewRoute =
+  AuthenticatedOpportunitiesNewRouteImport.update({
+    id: '/opportunities/new',
+    path: '/opportunities/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOpportunitiesIdRoute =
+  AuthenticatedOpportunitiesIdRouteImport.update({
+    id: '/opportunities/$id',
+    path: '/opportunities/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMessagesIdRoute = AuthenticatedMessagesIdRouteImport.update({
   id: '/messages/$id',
   path: '/messages/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedOpportunitiesIdEditRoute =
+  AuthenticatedOpportunitiesIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthenticatedOpportunitiesIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,13 +169,21 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/connections': typeof AuthenticatedConnectionsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/discover': typeof AuthenticatedDiscoverRoute
+  '/focus': typeof AuthenticatedFocusRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/saved': typeof AuthenticatedSavedRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/opportunities/$id': typeof AuthenticatedOpportunitiesIdRouteWithChildren
+  '/opportunities/new': typeof AuthenticatedOpportunitiesNewRoute
   '/u/$id': typeof AuthenticatedUIdRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/opportunities/$id/edit': typeof AuthenticatedOpportunitiesIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,13 +194,21 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/connections': typeof AuthenticatedConnectionsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/discover': typeof AuthenticatedDiscoverRoute
+  '/focus': typeof AuthenticatedFocusRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/saved': typeof AuthenticatedSavedRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/opportunities/$id': typeof AuthenticatedOpportunitiesIdRouteWithChildren
+  '/opportunities/new': typeof AuthenticatedOpportunitiesNewRoute
   '/u/$id': typeof AuthenticatedUIdRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
+  '/opportunities/$id/edit': typeof AuthenticatedOpportunitiesIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -153,13 +221,21 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/connections': typeof AuthenticatedConnectionsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/discover': typeof AuthenticatedDiscoverRoute
+  '/_authenticated/focus': typeof AuthenticatedFocusRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/saved': typeof AuthenticatedSavedRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
+  '/_authenticated/opportunities/$id': typeof AuthenticatedOpportunitiesIdRouteWithChildren
+  '/_authenticated/opportunities/new': typeof AuthenticatedOpportunitiesNewRoute
   '/_authenticated/u/$id': typeof AuthenticatedUIdRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/_authenticated/opportunities/$id/edit': typeof AuthenticatedOpportunitiesIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,13 +248,21 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/admin'
+    | '/connections'
     | '/dashboard'
     | '/discover'
+    | '/focus'
     | '/notifications'
     | '/profile'
+    | '/saved'
+    | '/settings'
     | '/messages/$id'
+    | '/opportunities/$id'
+    | '/opportunities/new'
     | '/u/$id'
     | '/messages/'
+    | '/opportunities/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,13 +273,21 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/admin'
+    | '/connections'
     | '/dashboard'
     | '/discover'
+    | '/focus'
     | '/notifications'
     | '/profile'
+    | '/saved'
+    | '/settings'
     | '/messages/$id'
+    | '/opportunities/$id'
+    | '/opportunities/new'
     | '/u/$id'
     | '/messages'
+    | '/opportunities/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -207,13 +299,21 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/privacy'
     | '/terms'
+    | '/_authenticated/admin'
+    | '/_authenticated/connections'
     | '/_authenticated/dashboard'
     | '/_authenticated/discover'
+    | '/_authenticated/focus'
     | '/_authenticated/notifications'
     | '/_authenticated/profile'
+    | '/_authenticated/saved'
+    | '/_authenticated/settings'
     | '/_authenticated/messages/$id'
+    | '/_authenticated/opportunities/$id'
+    | '/_authenticated/opportunities/new'
     | '/_authenticated/u/$id'
     | '/_authenticated/messages/'
+    | '/_authenticated/opportunities/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -293,6 +393,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saved': {
+      id: '/_authenticated/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof AuthenticatedSavedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
@@ -305,6 +419,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/focus': {
+      id: '/_authenticated/focus'
+      path: '/focus'
+      fullPath: '/focus'
+      preLoaderRoute: typeof AuthenticatedFocusRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/discover': {
@@ -321,6 +442,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/connections': {
+      id: '/_authenticated/connections'
+      path: '/connections'
+      fullPath: '/connections'
+      preLoaderRoute: typeof AuthenticatedConnectionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/messages/': {
       id: '/_authenticated/messages/'
       path: '/messages'
@@ -335,6 +470,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/opportunities/new': {
+      id: '/_authenticated/opportunities/new'
+      path: '/opportunities/new'
+      fullPath: '/opportunities/new'
+      preLoaderRoute: typeof AuthenticatedOpportunitiesNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/opportunities/$id': {
+      id: '/_authenticated/opportunities/$id'
+      path: '/opportunities/$id'
+      fullPath: '/opportunities/$id'
+      preLoaderRoute: typeof AuthenticatedOpportunitiesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/messages/$id': {
       id: '/_authenticated/messages/$id'
       path: '/messages/$id'
@@ -342,25 +491,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/opportunities/$id/edit': {
+      id: '/_authenticated/opportunities/$id/edit'
+      path: '/edit'
+      fullPath: '/opportunities/$id/edit'
+      preLoaderRoute: typeof AuthenticatedOpportunitiesIdEditRouteImport
+      parentRoute: typeof AuthenticatedOpportunitiesIdRoute
+    }
   }
 }
 
+interface AuthenticatedOpportunitiesIdRouteChildren {
+  AuthenticatedOpportunitiesIdEditRoute: typeof AuthenticatedOpportunitiesIdEditRoute
+}
+
+const AuthenticatedOpportunitiesIdRouteChildren: AuthenticatedOpportunitiesIdRouteChildren =
+  {
+    AuthenticatedOpportunitiesIdEditRoute:
+      AuthenticatedOpportunitiesIdEditRoute,
+  }
+
+const AuthenticatedOpportunitiesIdRouteWithChildren =
+  AuthenticatedOpportunitiesIdRoute._addFileChildren(
+    AuthenticatedOpportunitiesIdRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedConnectionsRoute: typeof AuthenticatedConnectionsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDiscoverRoute: typeof AuthenticatedDiscoverRoute
+  AuthenticatedFocusRoute: typeof AuthenticatedFocusRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSavedRoute: typeof AuthenticatedSavedRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedMessagesIdRoute: typeof AuthenticatedMessagesIdRoute
+  AuthenticatedOpportunitiesIdRoute: typeof AuthenticatedOpportunitiesIdRouteWithChildren
+  AuthenticatedOpportunitiesNewRoute: typeof AuthenticatedOpportunitiesNewRoute
   AuthenticatedUIdRoute: typeof AuthenticatedUIdRoute
   AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedConnectionsRoute: AuthenticatedConnectionsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDiscoverRoute: AuthenticatedDiscoverRoute,
+  AuthenticatedFocusRoute: AuthenticatedFocusRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSavedRoute: AuthenticatedSavedRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedMessagesIdRoute: AuthenticatedMessagesIdRoute,
+  AuthenticatedOpportunitiesIdRoute:
+    AuthenticatedOpportunitiesIdRouteWithChildren,
+  AuthenticatedOpportunitiesNewRoute: AuthenticatedOpportunitiesNewRoute,
   AuthenticatedUIdRoute: AuthenticatedUIdRoute,
   AuthenticatedMessagesIndexRoute: AuthenticatedMessagesIndexRoute,
 }
