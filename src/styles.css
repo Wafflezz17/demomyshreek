@@ -4,17 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* VentureHub — Emerald Prestige design system
-   Typography: Space Grotesk (headings) + DM Sans (body) */
+/* myShareek — Deep Navy + Verified Green design system */
 
-@font-face { font-family: "Space Grotesk"; font-display: swap; }
-@font-face { font-family: "DM Sans"; font-display: swap; }
-
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 @theme inline {
-  --font-sans: "DM Sans", system-ui, sans-serif;
-  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -37,8 +33,10 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-gold: var(--gold);
-  --color-gold-foreground: var(--gold-foreground);
+  --color-verified: var(--verified);
+  --color-verified-foreground: var(--verified-foreground);
+  --color-gold: var(--verified);
+  --color-gold-foreground: var(--verified-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -53,85 +51,86 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --shadow-elegant: 0 10px 30px -10px color-mix(in oklab, var(--primary) 25%, transparent);
-  --shadow-card: 0 1px 3px 0 oklch(0 0 0 / 0.06), 0 1px 2px -1px oklch(0 0 0 / 0.04);
+  --shadow-elegant: 0 10px 30px -10px color-mix(in oklab, var(--primary) 30%, transparent);
+  --shadow-card: 0 1px 2px 0 oklch(0 0 0 / 0.04), 0 1px 1px -1px oklch(0 0 0 / 0.03);
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.625rem;
 
-  /* Emerald Prestige — light */
-  --background: oklch(0.985 0.005 100);          /* warm cream */
-  --foreground: oklch(0.22 0.04 160);            /* deep emerald-ink */
+  /* myShareek — light */
+  --background: oklch(1 0 0);                       /* white */
+  --foreground: oklch(0.18 0.04 260);               /* deep navy ink */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.04 160);
+  --card-foreground: oklch(0.18 0.04 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.04 160);
+  --popover-foreground: oklch(0.18 0.04 260);
 
-  --primary: oklch(0.42 0.10 160);               /* emerald 700 */
-  --primary-foreground: oklch(0.985 0.01 90);
-  --primary-glow: oklch(0.55 0.13 160);
+  --primary: oklch(0.27 0.08 260);                  /* deep navy ~ #0A2540 */
+  --primary-foreground: oklch(1 0 0);
+  --primary-glow: oklch(0.36 0.09 260);
 
-  --secondary: oklch(0.96 0.015 150);
-  --secondary-foreground: oklch(0.30 0.05 160);
+  --secondary: oklch(0.97 0.005 250);               /* light gray surface ~ #F5F7FA */
+  --secondary-foreground: oklch(0.27 0.08 260);
 
-  --muted: oklch(0.96 0.01 140);
-  --muted-foreground: oklch(0.48 0.02 160);
+  --muted: oklch(0.97 0.005 250);
+  --muted-foreground: oklch(0.50 0.02 260);
 
-  --accent: oklch(0.93 0.04 150);
-  --accent-foreground: oklch(0.30 0.05 160);
+  --accent: oklch(0.96 0.01 250);
+  --accent-foreground: oklch(0.27 0.08 260);
 
-  --gold: oklch(0.78 0.12 85);                   /* prestige gold */
-  --gold-foreground: oklch(0.22 0.04 160);
+  /* Subtle green for verified, CTAs, positive states ~ #1DB87A */
+  --verified: oklch(0.65 0.15 155);
+  --verified-foreground: oklch(1 0 0);
 
   --destructive: oklch(0.58 0.22 27);
-  --destructive-foreground: oklch(0.985 0.01 90);
+  --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.91 0.012 150);
-  --input: oklch(0.91 0.012 150);
-  --ring: oklch(0.42 0.10 160);
+  --border: oklch(0.92 0.005 250);
+  --input: oklch(0.92 0.005 250);
+  --ring: oklch(0.27 0.08 260);
 
-  --sidebar: oklch(0.985 0.005 100);
-  --sidebar-foreground: oklch(0.22 0.04 160);
-  --sidebar-primary: oklch(0.42 0.10 160);
-  --sidebar-primary-foreground: oklch(0.985 0.01 90);
-  --sidebar-accent: oklch(0.93 0.04 150);
-  --sidebar-accent-foreground: oklch(0.30 0.05 160);
-  --sidebar-border: oklch(0.91 0.012 150);
-  --sidebar-ring: oklch(0.42 0.10 160);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.18 0.04 260);
+  --sidebar-primary: oklch(0.27 0.08 260);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0.01 250);
+  --sidebar-accent-foreground: oklch(0.27 0.08 260);
+  --sidebar-border: oklch(0.92 0.005 250);
+  --sidebar-ring: oklch(0.27 0.08 260);
 }
 
 .dark {
-  --background: oklch(0.16 0.02 160);
-  --foreground: oklch(0.96 0.01 90);
-  --card: oklch(0.20 0.025 160);
-  --card-foreground: oklch(0.96 0.01 90);
-  --popover: oklch(0.20 0.025 160);
-  --popover-foreground: oklch(0.96 0.01 90);
-  --primary: oklch(0.62 0.13 160);
-  --primary-foreground: oklch(0.14 0.02 160);
-  --primary-glow: oklch(0.72 0.15 160);
-  --secondary: oklch(0.25 0.03 160);
-  --secondary-foreground: oklch(0.96 0.01 90);
-  --muted: oklch(0.24 0.025 160);
-  --muted-foreground: oklch(0.70 0.02 160);
-  --accent: oklch(0.28 0.04 160);
-  --accent-foreground: oklch(0.96 0.01 90);
-  --gold: oklch(0.78 0.12 85);
-  --gold-foreground: oklch(0.16 0.02 160);
+  --background: oklch(0.16 0.03 260);
+  --foreground: oklch(0.97 0.01 250);
+  --card: oklch(0.20 0.035 260);
+  --card-foreground: oklch(0.97 0.01 250);
+  --popover: oklch(0.20 0.035 260);
+  --popover-foreground: oklch(0.97 0.01 250);
+  --primary: oklch(0.72 0.10 250);
+  --primary-foreground: oklch(0.16 0.03 260);
+  --primary-glow: oklch(0.80 0.11 250);
+  --secondary: oklch(0.24 0.03 260);
+  --secondary-foreground: oklch(0.97 0.01 250);
+  --muted: oklch(0.24 0.03 260);
+  --muted-foreground: oklch(0.70 0.02 260);
+  --accent: oklch(0.28 0.04 260);
+  --accent-foreground: oklch(0.97 0.01 250);
+  --verified: oklch(0.70 0.15 155);
+  --verified-foreground: oklch(0.16 0.03 260);
   --destructive: oklch(0.62 0.22 27);
-  --destructive-foreground: oklch(0.96 0.01 90);
+  --destructive-foreground: oklch(0.97 0.01 250);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.62 0.13 160);
-  --sidebar: oklch(0.16 0.02 160);
-  --sidebar-foreground: oklch(0.96 0.01 90);
-  --sidebar-primary: oklch(0.62 0.13 160);
-  --sidebar-primary-foreground: oklch(0.14 0.02 160);
-  --sidebar-accent: oklch(0.28 0.04 160);
-  --sidebar-accent-foreground: oklch(0.96 0.01 90);
+  --ring: oklch(0.72 0.10 250);
+  --sidebar: oklch(0.16 0.03 260);
+  --sidebar-foreground: oklch(0.97 0.01 250);
+  --sidebar-primary: oklch(0.72 0.10 250);
+  --sidebar-primary-foreground: oklch(0.16 0.03 260);
+  --sidebar-accent: oklch(0.28 0.04 260);
+  --sidebar-accent-foreground: oklch(0.97 0.01 250);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.62 0.13 160);
+  --sidebar-ring: oklch(0.72 0.10 250);
 }
 
 @layer base {
@@ -140,9 +139,9 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-feature-settings: "ss01", "cv11";
+    font-feature-settings: "cv11", "ss03";
   }
-  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: -0.015em; }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: -0.02em; font-weight: 700; }
 }
 
 @utility gradient-primary {
@@ -150,8 +149,8 @@
 }
 @utility gradient-hero {
   background-image:
-    radial-gradient(60% 80% at 80% 20%, color-mix(in oklab, var(--color-gold) 18%, transparent), transparent 60%),
-    radial-gradient(80% 80% at 0% 100%, color-mix(in oklab, var(--color-primary) 22%, transparent), transparent 60%),
-    linear-gradient(180deg, var(--color-background), color-mix(in oklab, var(--color-primary) 6%, var(--color-background)));
+    radial-gradient(50% 60% at 80% 0%, color-mix(in oklab, var(--color-verified) 10%, transparent), transparent 70%),
+    radial-gradient(80% 60% at 0% 100%, color-mix(in oklab, var(--color-primary) 8%, transparent), transparent 70%),
+    var(--color-background);
 }
 @utility text-balance { text-wrap: balance; }
