@@ -46,9 +46,7 @@ function NewOpportunity() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!user) return;
-    if (form.title.trim().length < 5) return toast.error("Title is too short.");
-    if (form.summary.trim().length < 20) return toast.error("Add a clearer summary (min 20 chars).");
-    if (form.description.trim().length < 80) return toast.error("Add a fuller description (min 80 chars).");
+    if (form.title.trim().length < 3) return toast.error("Add a title.");
     if (!form.sector_id) return toast.error("Pick a sector.");
 
     const screening = screenOpportunityText(`${form.title} ${form.summary} ${form.description}`);
