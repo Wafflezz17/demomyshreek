@@ -43,10 +43,7 @@ export const SEEKING = [
   { value: "both", label: "Both" },
 ] as const;
 
-export const GEOGRAPHIES = [
-  "UAE", "Saudi Arabia", "Qatar", "Kuwait", "Bahrain", "Oman",
-  "Egypt", "Jordan", "GCC-wide", "MENA-wide", "Global",
-];
+export const GEOGRAPHIES = ["UAE", "Saudi Arabia"];
 
 export const INVESTOR_TYPES = [
   { value: "angel", label: "Angel" },
