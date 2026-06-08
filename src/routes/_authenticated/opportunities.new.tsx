@@ -96,7 +96,7 @@ function NewOpportunity() {
             <Input maxLength={120} value={form.title} onChange={(e) => setField("title", e.target.value)} placeholder="e.g. UAE grocery chain — expansion partner" required />
           </Field>
           <Field label="Short summary (1–2 lines, shown on cards)">
-            <Textarea maxLength={240} rows={2} value={form.summary} onChange={(e) => setField("summary", e.target.value)} placeholder="One-line pitch of the opportunity" required />
+            <Textarea maxLength={240} rows={2} value={form.summary} onChange={(e) => setField("summary", e.target.value)} placeholder="One-line pitch of the opportunity (optional)" />
           </Field>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Opportunity type">
