@@ -17,7 +17,7 @@ const searchSchema = z.object({ mode: z.enum(["signin", "signup"]).optional() })
 
 export const Route = createFileRoute("/auth")({
   validateSearch: searchSchema,
-  head: () => ({ meta: [{ title: "Sign in · VentureHub" }, { name: "description", content: "Sign in or create your VentureHub account." }] }),
+  head: () => ({ meta: [{ title: "Sign in · myShareek" }, { name: "description", content: "Sign in or create your myShareek account." }] }),
   component: AuthPage,
 });
 
@@ -95,7 +95,7 @@ function AuthPage() {
           </Link>
           <Card>
             <Link to="/" className="mb-5 flex items-center gap-2 font-display text-xl font-bold">
-              <span className="inline-block size-8 rounded-lg gradient-primary" /> VentureHub
+              <span className="inline-block size-8 rounded-lg gradient-primary" /> myShareek
             </Link>
 
             <Tabs value={tab} onValueChange={(v) => setTab(v as "signin" | "signup")}>

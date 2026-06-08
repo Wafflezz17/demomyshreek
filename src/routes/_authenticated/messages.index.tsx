@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { RoleBadge } from "@/components/RoleBadge";
 
 export const Route = createFileRoute("/_authenticated/messages/")({
-  head: () => ({ meta: [{ title: "Messages · VentureHub" }] }),
+  head: () => ({ meta: [{ title: "Messages · myShareek" }] }),
   component: Inbox,
 });
 

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { RoleBadge } from "@/components/RoleBadge";
 
 export const Route = createFileRoute("/_authenticated/messages/$id")({
-  head: () => ({ meta: [{ title: "Conversation · VentureHub" }] }),
+  head: () => ({ meta: [{ title: "Conversation · myShareek" }] }),
   component: Conversation,
 });
 
