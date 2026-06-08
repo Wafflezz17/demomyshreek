@@ -46,9 +46,7 @@ function NewOpportunity() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!user) return;
-    if (form.title.trim().length < 5) return toast.error("Title is too short.");
-    if (form.summary.trim().length < 20) return toast.error("Add a clearer summary (min 20 chars).");
-    if (form.description.trim().length < 80) return toast.error("Add a fuller description (min 80 chars).");
+    if (form.title.trim().length < 3) return toast.error("Add a title.");
     if (!form.sector_id) return toast.error("Pick a sector.");
 
     const screening = screenOpportunityText(`${form.title} ${form.summary} ${form.description}`);
@@ -98,7 +96,7 @@ function NewOpportunity() {
             <Input maxLength={120} value={form.title} onChange={(e) => setField("title", e.target.value)} placeholder="e.g. UAE grocery chain — expansion partner" required />
           </Field>
           <Field label="Short summary (1–2 lines, shown on cards)">
-            <Textarea maxLength={240} rows={2} value={form.summary} onChange={(e) => setField("summary", e.target.value)} placeholder="One-line pitch of the opportunity" required />
+            <Textarea maxLength={240} rows={2} value={form.summary} onChange={(e) => setField("summary", e.target.value)} placeholder="One-line pitch of the opportunity (optional)" />
           </Field>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Opportunity type">
@@ -148,8 +146,8 @@ function NewOpportunity() {
         </Card>
 
         <Card className="space-y-4 p-6">
-          <Field label="Full description (problem, solution, why now, traction in ranges)">
-            <Textarea rows={8} maxLength={4000} value={form.description} onChange={(e) => setField("description", e.target.value)} placeholder="Describe the opportunity. Use traction ranges (e.g. 'AED 500K–2M annual revenue') rather than precise figures." required />
+          <Field label="Description (optional)">
+            <Textarea rows={8} maxLength={4000} value={form.description} onChange={(e) => setField("description", e.target.value)} placeholder="Describe the opportunity in your own words (optional). Use ranges for traction." />
           </Field>
           <Field label="Key highlights (3 short bullets)">
             <div className="space-y-2">
