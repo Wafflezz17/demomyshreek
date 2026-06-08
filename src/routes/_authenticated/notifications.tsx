@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/notifications")({
-  head: () => ({ meta: [{ title: "Notifications · VentureHub" }] }),
+  head: () => ({ meta: [{ title: "Notifications · myShareek" }] }),
   component: Notifications,
 });
 

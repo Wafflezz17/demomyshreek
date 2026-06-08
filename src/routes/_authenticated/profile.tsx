@@ -15,7 +15,7 @@ import { RoleBadge } from "@/components/RoleBadge";
 import { INDUSTRIES, SKILLS, STAGES, EXPERIENCE_LEVELS, AVAILABILITY } from "@/lib/constants";
 
 export const Route = createFileRoute("/_authenticated/profile")({
-  head: () => ({ meta: [{ title: "My profile · VentureHub" }] }),
+  head: () => ({ meta: [{ title: "My profile · myShareek" }] }),
   component: ProfileEdit,
 });
 

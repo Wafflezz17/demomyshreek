@@ -10,7 +10,7 @@ import { ProfileCard, type ProfileCardData } from "@/components/ProfileCard";
 import { RoleBadge } from "@/components/RoleBadge";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard · VentureHub" }] }),
+  head: () => ({ meta: [{ title: "Dashboard · myShareek" }] }),
   component: Dashboard,
 });
 
