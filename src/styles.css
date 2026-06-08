@@ -6,8 +6,6 @@
 
 /* myShareek — Deep Navy + Verified Green design system */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Inter", system-ui, sans-serif;
