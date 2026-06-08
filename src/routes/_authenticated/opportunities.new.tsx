@@ -147,7 +147,7 @@ function NewOpportunity() {
 
         <Card className="space-y-4 p-6">
           <Field label="Full description (problem, solution, why now, traction in ranges)">
-            <Textarea rows={8} maxLength={4000} value={form.description} onChange={(e) => setField("description", e.target.value)} placeholder="Describe the opportunity. Use traction ranges (e.g. 'AED 500K–2M annual revenue') rather than precise figures." required />
+            <Textarea rows={8} maxLength={4000} value={form.description} onChange={(e) => setField("description", e.target.value)} placeholder="Describe the opportunity in your own words (optional). Use ranges for traction." />
           </Field>
           <Field label="Key highlights (3 short bullets)">
             <div className="space-y-2">
