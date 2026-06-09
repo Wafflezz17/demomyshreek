@@ -68,7 +68,7 @@ function LandingPage() {
               className="sm:mt-8"
               verified
             />
-            <Preview title="EdTech — GCC market entry partner" tag="Strategic" sub="EdTech · MENA-wide" />
+            <Preview title="EdTech — GCC market entry partner" tag="Strategic" sub="EdTech ·" />
             <Preview
               title="Cleantech rollout — capital + expertise"
               tag="Growth"
