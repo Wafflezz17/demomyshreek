@@ -84,8 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "myShareek — Where founders, talent and investors meet" },
       { name: "twitter:description", content: "myShareek connects entrepreneurs, skilled professionals and investors to build and back the next generation of startups." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d39d002e-5a2f-482f-ae27-8e1eb7f0c027/id-preview-f7dc4b4a--d21b8b3a-1973-43fb-a246-d692116587ed.lovable.app-1780598879841.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d39d002e-5a2f-482f-ae27-8e1eb7f0c027/id-preview-f7dc4b4a--d21b8b3a-1973-43fb-a246-d692116587ed.lovable.app-1780598879841.png" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8bcde2d4-c667-4e22-ad42-707e6c2a6ee1/id-preview-913aafcb--186fc945-5544-4a7b-91f9-16de3aac41b3.lovable.app-1781009936093.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8bcde2d4-c667-4e22-ad42-707e6c2a6ee1/id-preview-913aafcb--186fc945-5544-4a7b-91f9-16de3aac41b3.lovable.app-1781009936093.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
