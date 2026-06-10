@@ -41,7 +41,10 @@ function AdminPage() {
     supabase.from("user_roles").select("role").eq("user_id", user.id).then(({ data }) => {
       const ok = !!data?.some((r) => r.role === "admin");
       setIsAdmin(ok);
-      if (!ok) return;
+      if (!ok) {
+        navigate({ to: "/dashboard", replace: true });
+        return;
+      }
       loadPending();
       supabase.from("reports").select("*").eq("status", "open").order("created_at", { ascending: false }).then(({ data }) => setReports(data ?? []));
       Promise.all([
