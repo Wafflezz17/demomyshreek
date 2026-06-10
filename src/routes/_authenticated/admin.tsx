@@ -28,6 +28,7 @@ type PendingUser = {
 
 function AdminPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [reports, setReports] = useState<any[]>([]);
   const [pending, setPending] = useState<PendingUser[]>([]);
