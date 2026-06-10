@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +28,7 @@ type PendingUser = {
 
 function AdminPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [reports, setReports] = useState<any[]>([]);
   const [pending, setPending] = useState<PendingUser[]>([]);
@@ -40,7 +41,10 @@ function AdminPage() {
     supabase.from("user_roles").select("role").eq("user_id", user.id).then(({ data }) => {
       const ok = !!data?.some((r) => r.role === "admin");
       setIsAdmin(ok);
-      if (!ok) return;
+      if (!ok) {
+        navigate({ to: "/dashboard", replace: true });
+        return;
+      }
       loadPending();
       supabase.from("reports").select("*").eq("status", "open").order("created_at", { ascending: false }).then(({ data }) => setReports(data ?? []));
       Promise.all([
