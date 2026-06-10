@@ -538,6 +538,9 @@ export type Database = {
       }
       profiles: {
         Row: {
+          approval_status: Database["public"]["Enums"]["approval_status"]
+          approved_at: string | null
+          approved_by: string | null
           avatar_url: string | null
           bio: string | null
           created_at: string
@@ -553,6 +556,7 @@ export type Database = {
           location_country: string | null
           phone_verified: boolean
           profile_completeness: number
+          rejection_reason: string | null
           role: Database["public"]["Enums"]["app_role"]
           status: Database["public"]["Enums"]["user_status"]
           trust_tier: Database["public"]["Enums"]["trust_tier"]
@@ -560,6 +564,9 @@ export type Database = {
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
         Insert: {
+          approval_status?: Database["public"]["Enums"]["approval_status"]
+          approved_at?: string | null
+          approved_by?: string | null
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
@@ -575,6 +582,7 @@ export type Database = {
           location_country?: string | null
           phone_verified?: boolean
           profile_completeness?: number
+          rejection_reason?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           status?: Database["public"]["Enums"]["user_status"]
           trust_tier?: Database["public"]["Enums"]["trust_tier"]
@@ -582,6 +590,9 @@ export type Database = {
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Update: {
+          approval_status?: Database["public"]["Enums"]["approval_status"]
+          approved_at?: string | null
+          approved_by?: string | null
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
@@ -597,6 +608,7 @@ export type Database = {
           location_country?: string | null
           phone_verified?: boolean
           profile_completeness?: number
+          rejection_reason?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           status?: Database["public"]["Enums"]["user_status"]
           trust_tier?: Database["public"]["Enums"]["trust_tier"]
@@ -765,6 +777,7 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_approved: { Args: { _user_id: string }; Returns: boolean }
       recompute_profile_completeness: {
         Args: { _user_id: string }
         Returns: number
@@ -772,6 +785,7 @@ export type Database = {
     }
     Enums: {
       app_role: "founder" | "professional" | "investor" | "admin"
+      approval_status: "pending" | "approved" | "rejected"
       availability_type: "full_time" | "part_time" | "contract" | "advisor"
       company_stage: "idea" | "early" | "growth" | "established"
       connection_status: "pending" | "accepted" | "declined" | "withdrawn"
@@ -923,6 +937,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["founder", "professional", "investor", "admin"],
+      approval_status: ["pending", "approved", "rejected"],
       availability_type: ["full_time", "part_time", "contract", "advisor"],
       company_stage: ["idea", "early", "growth", "established"],
       connection_status: ["pending", "accepted", "declined", "withdrawn"],
