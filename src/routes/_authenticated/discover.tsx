@@ -7,6 +7,8 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { BadgeCheck } from "lucide-react";
 import { OPPORTUNITY_TYPES, OPPORTUNITY_STAGES, BRAND } from "@/lib/myshareek";
 
 export const Route = createFileRoute("/_authenticated/discover")({
