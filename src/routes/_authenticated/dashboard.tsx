@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MessageSquare, Users, Sparkles, Rocket, Briefcase, TrendingUp, ArrowRight, CheckCircle2 } from "lucide-react";
+import { MessageSquare, Users, Sparkles, Rocket, Briefcase, TrendingUp, ArrowRight, CheckCircle2, Target } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Card } from "@/components/ui/card";
@@ -8,6 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ProfileCard, type ProfileCardData } from "@/components/ProfileCard";
 import { RoleBadge } from "@/components/RoleBadge";
+import { rankOpportunities, type MatchResult } from "@/lib/matching";
+import { formatCapitalBand } from "@/lib/myshareek";
+
+type MatchedOpp = {
+  id: string;
+  title: string;
+  summary: string;
+  sector_id: string | null;
+  stage: string | null;
+  location_country: string | null;
+  capital_band_min: number | null;
+  capital_band_max: number | null;
+  match: MatchResult;
+};
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard · myShareek" }] }),
@@ -21,6 +35,7 @@ function Dashboard() {
   const [suggestions, setSuggestions] = useState<ProfileCardData[]>([]);
   const [recentConvos, setRecentConvos] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [topMatches, setTopMatches] = useState<MatchedOpp[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -33,6 +48,19 @@ function Dashboard() {
       } else if (p?.role === "investor") {
         const { data } = await supabase.from("investor_details").select("*").eq("user_id", user.id).maybeSingle();
         setDetails(data);
+        // Compute "Fits Your Focus" matches
+        const [{ data: inv }, { data: opps }, { data: sectorRows }] = await Promise.all([
+          supabase.from("investor_profiles").select("preferred_sectors, preferred_stages, ticket_min, ticket_max, geographies").eq("user_id", user.id).maybeSingle(),
+          supabase.from("opportunities").select("id, title, summary, sector_id, stage, location_country, capital_band_min, capital_band_max, created_at").eq("status", "live").order("created_at", { ascending: false }).limit(80),
+          supabase.from("sectors").select("id, name"),
+        ]);
+        if (inv && opps) {
+          const sectorNameById = Object.fromEntries((sectorRows ?? []).map((s: any) => [s.id, s.name]));
+          const ranked = rankOpportunities(opps as any, inv as any, sectorNameById)
+            .filter((o) => o.match.score > 0)
+            .slice(0, 5);
+          setTopMatches(ranked as MatchedOpp[]);
+        }
       } else {
         const { data } = await supabase.from("professional_details").select("*").eq("user_id", user.id).maybeSingle();
         setDetails(data);
