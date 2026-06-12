@@ -83,10 +83,44 @@ function ProfileEdit() {
         <Button onClick={save} disabled={saving}><Save className="mr-2 size-4" /> {saving ? "Saving..." : "Save changes"}</Button>
       </div>
 
+      <Card className="mb-6">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="font-display text-sm font-semibold">Profile completeness</h2>
+            <p className="text-xs text-muted-foreground">Fill more fields to reach Active tier and unlock features.</p>
+          </div>
+          <div className="text-right">
+            <div className="font-display text-2xl font-bold text-primary">{profile.profile_completeness ?? 0}%</div>
+            <div className="text-xs text-muted-foreground capitalize">{profile.trust_tier ?? "registered"} tier</div>
+          </div>
+        </div>
+        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
+          <div className="h-full bg-primary transition-all" style={{ width: `${profile.profile_completeness ?? 0}%` }} />
+        </div>
+      </Card>
+
       <Card>
         <h2 className="font-display text-lg font-semibold">Basics</h2>
         <div className="mt-4 flex items-center gap-4">
           <Avatar className="size-16">
+            {profile.avatar_url && <AvatarImage src={profile.avatar_url} />}
+            <AvatarFallback className="bg-primary text-primary-foreground">{(profile.full_name ?? "?").charAt(0).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1 space-y-1.5">
+            <Label htmlFor="avatar">Avatar URL</Label>
+            <Input id="avatar" value={profile.avatar_url ?? ""} onChange={(e) => setProfile({ ...profile, avatar_url: e.target.value })} placeholder="https://..." />
+          </div>
+        </div>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Field label="Full name"><Input value={profile.full_name ?? ""} onChange={(e) => setProfile({ ...profile, full_name: e.target.value })} /></Field>
+          <Field label="Headline"><Input value={profile.headline ?? ""} onChange={(e) => setProfile({ ...profile, headline: e.target.value })} placeholder="e.g. Founder & CEO at Acme" /></Field>
+          <Field label="Country"><Input value={profile.location_country ?? ""} onChange={(e) => setProfile({ ...profile, location_country: e.target.value })} placeholder="e.g. UAE" /></Field>
+          <Field label="City"><Input value={profile.location_city ?? ""} onChange={(e) => setProfile({ ...profile, location_city: e.target.value })} placeholder="e.g. Dubai" /></Field>
+          <Field label="Location (display)"><Input value={profile.location ?? ""} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" /></Field>
+          <Field label="LinkedIn URL"><Input value={profile.linkedin_url ?? ""} onChange={(e) => setProfile({ ...profile, linkedin_url: e.target.value })} placeholder="https://linkedin.com/in/..." /></Field>
+          <Field label="Bio" className="md:col-span-2"><Textarea rows={4} value={profile.bio ?? ""} onChange={(e) => setProfile({ ...profile, bio: e.target.value })} placeholder="Tell others about yourself..." /></Field>
+        </div>
+      </Card>
             {profile.avatar_url && <AvatarImage src={profile.avatar_url} />}
             <AvatarFallback className="bg-primary text-primary-foreground">{(profile.full_name ?? "?").charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>
