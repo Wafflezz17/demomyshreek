@@ -45,17 +45,26 @@ function ProfileEdit() {
         full_name: profile.full_name,
         avatar_url: profile.avatar_url,
         location: profile.location,
+        location_country: profile.location_country,
+        location_city: profile.location_city,
+        headline: profile.headline,
+        linkedin_url: profile.linkedin_url,
         bio: profile.bio,
-        
       })
       .eq("id", user.id);
     if (pe) { setSaving(false); return toast.error(pe.message); }
 
     const table = profile.role === "founder" ? "founder_details" : profile.role === "investor" ? "investor_details" : "professional_details";
-    const payload = { user_id: user.id, ...details };
+    // Strip server-managed columns from the upsert payload
+    const { updated_at: _u, ...detailsToSave } = (details ?? {}) as Record<string, unknown>;
+    const payload = { user_id: user.id, ...detailsToSave };
     const { error: de } = await supabase.from(table).upsert(payload, { onConflict: "user_id" });
+    if (de) { setSaving(false); return toast.error(de.message); }
+
+    // Refetch so profile_completeness shown matches what the DB trigger just recomputed
+    const { data: fresh } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
+    if (fresh) setProfile(fresh);
     setSaving(false);
-    if (de) return toast.error(de.message);
     toast.success("Profile saved");
   }
 
