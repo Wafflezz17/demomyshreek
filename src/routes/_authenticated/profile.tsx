@@ -121,21 +121,6 @@ function ProfileEdit() {
           <Field label="Bio" className="md:col-span-2"><Textarea rows={4} value={profile.bio ?? ""} onChange={(e) => setProfile({ ...profile, bio: e.target.value })} placeholder="Tell others about yourself..." /></Field>
         </div>
       </Card>
-            {profile.avatar_url && <AvatarImage src={profile.avatar_url} />}
-            <AvatarFallback className="bg-primary text-primary-foreground">{(profile.full_name ?? "?").charAt(0).toUpperCase()}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 space-y-1.5">
-            <Label htmlFor="avatar">Avatar URL</Label>
-            <Input id="avatar" value={profile.avatar_url ?? ""} onChange={(e) => setProfile({ ...profile, avatar_url: e.target.value })} placeholder="https://..." />
-          </div>
-        </div>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <Field label="Full name"><Input value={profile.full_name ?? ""} onChange={(e) => setProfile({ ...profile, full_name: e.target.value })} /></Field>
-          <Field label="Location"><Input value={profile.location ?? ""} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" /></Field>
-          
-          <Field label="Bio" className="md:col-span-2"><Textarea rows={4} value={profile.bio ?? ""} onChange={(e) => setProfile({ ...profile, bio: e.target.value })} placeholder="Tell others about yourself..." /></Field>
-        </div>
-      </Card>
 
       <Card className="mt-6">
         <h2 className="font-display text-lg font-semibold">
