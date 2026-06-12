@@ -45,17 +45,26 @@ function ProfileEdit() {
         full_name: profile.full_name,
         avatar_url: profile.avatar_url,
         location: profile.location,
+        location_country: profile.location_country,
+        location_city: profile.location_city,
+        headline: profile.headline,
+        linkedin_url: profile.linkedin_url,
         bio: profile.bio,
-        
       })
       .eq("id", user.id);
     if (pe) { setSaving(false); return toast.error(pe.message); }
 
     const table = profile.role === "founder" ? "founder_details" : profile.role === "investor" ? "investor_details" : "professional_details";
-    const payload = { user_id: user.id, ...details };
+    // Strip server-managed columns from the upsert payload
+    const { updated_at: _u, ...detailsToSave } = (details ?? {}) as Record<string, unknown>;
+    const payload = { user_id: user.id, ...detailsToSave };
     const { error: de } = await supabase.from(table).upsert(payload, { onConflict: "user_id" });
+    if (de) { setSaving(false); return toast.error(de.message); }
+
+    // Refetch so profile_completeness shown matches what the DB trigger just recomputed
+    const { data: fresh } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
+    if (fresh) setProfile(fresh);
     setSaving(false);
-    if (de) return toast.error(de.message);
     toast.success("Profile saved");
   }
 
@@ -74,6 +83,22 @@ function ProfileEdit() {
         <Button onClick={save} disabled={saving}><Save className="mr-2 size-4" /> {saving ? "Saving..." : "Save changes"}</Button>
       </div>
 
+      <Card className="mb-6">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="font-display text-sm font-semibold">Profile completeness</h2>
+            <p className="text-xs text-muted-foreground">Fill more fields to reach Active tier and unlock features.</p>
+          </div>
+          <div className="text-right">
+            <div className="font-display text-2xl font-bold text-primary">{profile.profile_completeness ?? 0}%</div>
+            <div className="text-xs text-muted-foreground capitalize">{profile.trust_tier ?? "registered"} tier</div>
+          </div>
+        </div>
+        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
+          <div className="h-full bg-primary transition-all" style={{ width: `${profile.profile_completeness ?? 0}%` }} />
+        </div>
+      </Card>
+
       <Card>
         <h2 className="font-display text-lg font-semibold">Basics</h2>
         <div className="mt-4 flex items-center gap-4">
@@ -88,8 +113,11 @@ function ProfileEdit() {
         </div>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <Field label="Full name"><Input value={profile.full_name ?? ""} onChange={(e) => setProfile({ ...profile, full_name: e.target.value })} /></Field>
-          <Field label="Location"><Input value={profile.location ?? ""} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" /></Field>
-          
+          <Field label="Headline"><Input value={profile.headline ?? ""} onChange={(e) => setProfile({ ...profile, headline: e.target.value })} placeholder="e.g. Founder & CEO at Acme" /></Field>
+          <Field label="Country"><Input value={profile.location_country ?? ""} onChange={(e) => setProfile({ ...profile, location_country: e.target.value })} placeholder="e.g. UAE" /></Field>
+          <Field label="City"><Input value={profile.location_city ?? ""} onChange={(e) => setProfile({ ...profile, location_city: e.target.value })} placeholder="e.g. Dubai" /></Field>
+          <Field label="Location (display)"><Input value={profile.location ?? ""} onChange={(e) => setProfile({ ...profile, location: e.target.value })} placeholder="City, Country" /></Field>
+          <Field label="LinkedIn URL"><Input value={profile.linkedin_url ?? ""} onChange={(e) => setProfile({ ...profile, linkedin_url: e.target.value })} placeholder="https://linkedin.com/in/..." /></Field>
           <Field label="Bio" className="md:col-span-2"><Textarea rows={4} value={profile.bio ?? ""} onChange={(e) => setProfile({ ...profile, bio: e.target.value })} placeholder="Tell others about yourself..." /></Field>
         </div>
       </Card>
