@@ -7,6 +7,8 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { BadgeCheck } from "lucide-react";
 import { OPPORTUNITY_TYPES, OPPORTUNITY_STAGES, BRAND } from "@/lib/myshareek";
 
 export const Route = createFileRoute("/_authenticated/discover")({
@@ -115,15 +117,24 @@ function DiscoverPage() {
             onChange={setStage}
             options={OPPORTUNITY_STAGES.map((s) => ({ value: s.value, label: s.label }))}
           />
-          <label className="flex cursor-pointer items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={verifiedOnly}
-              onChange={(e) => setVerifiedOnly(e.target.checked)}
-              className="accent-verified"
-            />
-            Verified only
-          </label>
+          <div className="rounded-lg border bg-verified/5 p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <BadgeCheck className="size-4 text-verified" />
+                <Label htmlFor="verified-only" className="cursor-pointer text-sm font-semibold">
+                  Verified only
+                </Label>
+              </div>
+              <Switch
+                id="verified-only"
+                checked={verifiedOnly}
+                onCheckedChange={setVerifiedOnly}
+              />
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Show only opportunities from verified founders.
+            </p>
+          </div>
           <Button
             variant="outline"
             size="sm"
@@ -152,8 +163,12 @@ function DiscoverPage() {
             </div>
           ) : (
             <>
-              <div className="mb-3 text-sm text-muted-foreground">
-                {opps.length} opportunit{opps.length === 1 ? "y" : "ies"} · Verified first
+              <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                <span>{opps.length} opportunit{opps.length === 1 ? "y" : "ies"}</span>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1">
+                  Sorted by <BadgeCheck className="size-3.5 text-verified" /> Verified first, then newest
+                </span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {opps.map((o) => (
