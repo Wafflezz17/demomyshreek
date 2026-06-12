@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { MessageSquare, Users, Sparkles, Rocket, Briefcase, TrendingUp, ArrowRight, CheckCircle2 } from "lucide-react";
+import { MessageSquare, Users, Sparkles, Rocket, Briefcase, TrendingUp, ArrowRight, CheckCircle2, Target } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Card } from "@/components/ui/card";
@@ -8,6 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ProfileCard, type ProfileCardData } from "@/components/ProfileCard";
 import { RoleBadge } from "@/components/RoleBadge";
+import { rankOpportunities, type MatchResult } from "@/lib/matching";
+import { formatCapitalBand } from "@/lib/myshareek";
+
+type MatchedOpp = {
+  id: string;
+  title: string;
+  summary: string;
+  sector_id: string | null;
+  stage: string | null;
+  location_country: string | null;
+  capital_band_min: number | null;
+  capital_band_max: number | null;
+  match: MatchResult;
+};
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard · myShareek" }] }),
@@ -21,6 +35,7 @@ function Dashboard() {
   const [suggestions, setSuggestions] = useState<ProfileCardData[]>([]);
   const [recentConvos, setRecentConvos] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [topMatches, setTopMatches] = useState<MatchedOpp[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -33,6 +48,19 @@ function Dashboard() {
       } else if (p?.role === "investor") {
         const { data } = await supabase.from("investor_details").select("*").eq("user_id", user.id).maybeSingle();
         setDetails(data);
+        // Compute "Fits Your Focus" matches
+        const [{ data: inv }, { data: opps }, { data: sectorRows }] = await Promise.all([
+          supabase.from("investor_profiles").select("preferred_sectors, preferred_stages, ticket_min, ticket_max, geographies").eq("user_id", user.id).maybeSingle(),
+          supabase.from("opportunities").select("id, title, summary, sector_id, stage, location_country, capital_band_min, capital_band_max, created_at").eq("status", "live").order("created_at", { ascending: false }).limit(80),
+          supabase.from("sectors").select("id, name"),
+        ]);
+        if (inv && opps) {
+          const sectorNameById = Object.fromEntries((sectorRows ?? []).map((s: any) => [s.id, s.name]));
+          const ranked = rankOpportunities(opps as any, inv as any, sectorNameById)
+            .filter((o) => o.match.score > 0)
+            .slice(0, 5);
+          setTopMatches(ranked as MatchedOpp[]);
+        }
       } else {
         const { data } = await supabase.from("professional_details").select("*").eq("user_id", user.id).maybeSingle();
         setDetails(data);
@@ -173,6 +201,52 @@ function Dashboard() {
               </ul>
             )}
           </Card>
+
+          {/* Fits Your Focus — investor matching */}
+          {role === "investor" && (
+            <Card>
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Target className="size-4 text-primary" /> Fits Your Focus
+                </h3>
+                <Link to="/discover" className="text-sm font-medium text-primary hover:underline">Browse all</Link>
+              </div>
+              {topMatches.length === 0 ? (
+                <div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
+                  No matches yet. <Link to="/focus" className="font-medium text-primary hover:underline">Set your focus</Link> so we can surface opportunities that fit.
+                </div>
+              ) : (
+                <ul className="space-y-3">
+                  {topMatches.map((o) => (
+                    <li key={o.id}>
+                      <Link
+                        to="/opportunities/$id"
+                        params={{ id: o.id }}
+                        className="block rounded-lg border p-3 transition-colors hover:bg-accent/40"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <div className="truncate font-medium">{o.title}</div>
+                            <div className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+                              {[o.stage, o.location_country, formatCapitalBand(o.capital_band_min, o.capital_band_max)].filter(Boolean).join(" · ")}
+                            </div>
+                            {o.match.reasons.length > 0 && (
+                              <p className="mt-1.5 text-xs text-primary">
+                                {o.match.reasons.join(" · ")}
+                              </p>
+                            )}
+                          </div>
+                          <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                            {o.match.score}% fit
+                          </span>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Card>
+          )}
 
           {/* Suggestions */}
           <Card>
