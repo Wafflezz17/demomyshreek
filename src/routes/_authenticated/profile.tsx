@@ -210,32 +210,42 @@ function SelectControl({ value, onChange, options, placeholder }: { value: strin
 }
 
 function ChipsEditor({ value, options, labels, onChange }: { value: string[]; options: string[]; labels?: Record<string, string>; onChange: (v: string[]) => void }) {
-  const [pick, setPick] = useState("");
-  const toggle = (v: string) => onChange(value.includes(v) ? value.filter((x) => x !== v) : [...value, v]);
-  const remaining = options.filter((o) => !value.includes(o));
+  const [draft, setDraft] = useState("");
+  const add = (v: string) => { const t = v.trim(); if (!t || value.includes(t)) return; onChange([...value, t]); setDraft(""); };
+  const remove = (v: string) => onChange(value.filter((x) => x !== v));
+  const suggestions = options.filter((o) => !value.includes(o) && (!draft || o.toLowerCase().includes(draft.toLowerCase())));
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap gap-1.5">
-        {value.length === 0 && <span className="text-sm text-muted-foreground">None selected yet.</span>}
+        {value.length === 0 && <span className="text-sm text-muted-foreground">None selected yet. Type below or tap a suggestion.</span>}
         {value.map((v) => (
-          <button key={v} onClick={() => toggle(v)} type="button" className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/20">
+          <button key={v} onClick={() => remove(v)} type="button" title="Click to remove" className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/20">
             {labels?.[v] ?? v} <X className="size-3" />
           </button>
         ))}
       </div>
-      {remaining.length > 0 && (
-        <div className="flex gap-2">
-          <Select value={pick} onValueChange={(v) => { setPick(""); toggle(v); }}>
-            <SelectTrigger><SelectValue placeholder="Add..." /></SelectTrigger>
-            <SelectContent>
-              {remaining.map((o) => <SelectItem key={o} value={o}>{labels?.[o] ?? o}</SelectItem>)}
-            </SelectContent>
-          </Select>
+      <div className="flex gap-2">
+        <Input
+          placeholder="Type to add or filter..."
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter" && draft.trim()) { e.preventDefault(); add(draft); } }}
+        />
+        <Button type="button" variant="outline" onClick={() => add(draft)} disabled={!draft.trim()}><Plus className="size-4" /></Button>
+      </div>
+      {suggestions.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {suggestions.slice(0, 12).map((o) => (
+            <button key={o} type="button" onClick={() => add(o)} className="rounded-full border border-dashed border-muted-foreground/30 px-2.5 py-1 text-xs text-muted-foreground hover:border-primary hover:text-primary">
+              + {labels?.[o] ?? o}
+            </button>
+          ))}
         </div>
       )}
     </div>
   );
 }
+
 
 function LinkListEditor({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
   const [draft, setDraft] = useState("");
