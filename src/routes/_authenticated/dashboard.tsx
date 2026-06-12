@@ -202,6 +202,52 @@ function Dashboard() {
             )}
           </Card>
 
+          {/* Fits Your Focus — investor matching */}
+          {role === "investor" && (
+            <Card>
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Target className="size-4 text-primary" /> Fits Your Focus
+                </h3>
+                <Link to="/discover" className="text-sm font-medium text-primary hover:underline">Browse all</Link>
+              </div>
+              {topMatches.length === 0 ? (
+                <div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
+                  No matches yet. <Link to="/focus" className="font-medium text-primary hover:underline">Set your focus</Link> so we can surface opportunities that fit.
+                </div>
+              ) : (
+                <ul className="space-y-3">
+                  {topMatches.map((o) => (
+                    <li key={o.id}>
+                      <Link
+                        to="/opportunities/$id"
+                        params={{ id: o.id }}
+                        className="block rounded-lg border p-3 transition-colors hover:bg-accent/40"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <div className="truncate font-medium">{o.title}</div>
+                            <div className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">
+                              {[o.stage, o.location_country, formatCapitalBand(o.capital_band_min, o.capital_band_max)].filter(Boolean).join(" · ")}
+                            </div>
+                            {o.match.reasons.length > 0 && (
+                              <p className="mt-1.5 text-xs text-primary">
+                                {o.match.reasons.join(" · ")}
+                              </p>
+                            )}
+                          </div>
+                          <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                            {o.match.score}% fit
+                          </span>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Card>
+          )}
+
           {/* Suggestions */}
           <Card>
             <div className="mb-4 flex items-center justify-between">
