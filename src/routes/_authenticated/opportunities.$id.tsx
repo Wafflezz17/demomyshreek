@@ -84,7 +84,12 @@ function OpportunityDetail() {
       intro_message: intro.trim(),
     });
     setSubmitting(false);
-    if (error) return toast.error(error.message.includes("trust_tier") ? "Complete your profile to send connection requests." : error.message);
+    if (error) {
+      const msg = error.message;
+      if (msg.includes("CONNECTION_RATE_LIMIT")) return toast.error(msg.replace(/^.*CONNECTION_RATE_LIMIT:\s*/, ""));
+      if (msg.includes("trust_tier")) return toast.error("Complete your profile to send connection requests.");
+      return toast.error(msg);
+    }
     toast.success("Connection request sent.");
     setRequested(true);
     supabase.from("events").insert({ user_id: user.id, event_type: "connection_requested", payload: { opportunity_id: id } });
