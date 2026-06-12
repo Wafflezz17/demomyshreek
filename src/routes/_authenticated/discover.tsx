@@ -163,8 +163,12 @@ function DiscoverPage() {
             </div>
           ) : (
             <>
-              <div className="mb-3 text-sm text-muted-foreground">
-                {opps.length} opportunit{opps.length === 1 ? "y" : "ies"} · Verified first
+              <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                <span>{opps.length} opportunit{opps.length === 1 ? "y" : "ies"}</span>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1">
+                  Sorted by <BadgeCheck className="size-3.5 text-verified" /> Verified first, then newest
+                </span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {opps.map((o) => (
