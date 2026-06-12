@@ -104,6 +104,6 @@ export type Profile = Tables["profiles"]["Row"];
 export type Connection = Tables["connections"]["Row"];
 
 export const RATE_LIMITS = {
-  active: 5,   // connection requests per day
-  verified: 20,
+  connectionsPerDay: { active: 10, verified: 25 },
+  liveOpportunities: { active: 5, verified: 20 },
 };
