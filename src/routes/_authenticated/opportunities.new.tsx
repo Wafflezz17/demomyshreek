@@ -76,9 +76,11 @@ function NewOpportunity() {
 
     setLoading(false);
     if (error) {
-      if (error.message.includes("trust_tier") || error.message.includes("row-level"))
+      const msg = error.message;
+      if (msg.includes("OPPORTUNITY_LIMIT")) return toast.error(msg.replace(/^.*OPPORTUNITY_LIMIT:\s*/, ""));
+      if (msg.includes("trust_tier") || msg.includes("row-level"))
         return toast.error("Complete your profile (60%) to publish opportunities. Visit My Profile.");
-      return toast.error(error.message);
+      return toast.error(msg);
     }
     supabase.from("events").insert({ user_id: user.id, event_type: "opportunity_published", payload: { opportunity_id: data!.id } });
     toast.success("Opportunity published.");
