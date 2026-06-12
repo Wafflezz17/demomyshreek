@@ -117,15 +117,24 @@ function DiscoverPage() {
             onChange={setStage}
             options={OPPORTUNITY_STAGES.map((s) => ({ value: s.value, label: s.label }))}
           />
-          <label className="flex cursor-pointer items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={verifiedOnly}
-              onChange={(e) => setVerifiedOnly(e.target.checked)}
-              className="accent-verified"
-            />
-            Verified only
-          </label>
+          <div className="rounded-lg border bg-verified/5 p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <BadgeCheck className="size-4 text-verified" />
+                <Label htmlFor="verified-only" className="cursor-pointer text-sm font-semibold">
+                  Verified only
+                </Label>
+              </div>
+              <Switch
+                id="verified-only"
+                checked={verifiedOnly}
+                onCheckedChange={setVerifiedOnly}
+              />
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Show only opportunities from verified founders.
+            </p>
+          </div>
           <Button
             variant="outline"
             size="sm"
