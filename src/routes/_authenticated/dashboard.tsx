@@ -40,7 +40,7 @@ function Dashboard() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const { data: p } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
+      const { data: p } = await supabase.from("profiles").select("id, full_name, headline, bio, avatar_url, role, location, location_city, location_country, linkedin_url, verification_status, trust_tier, profile_completeness, is_founding_member, last_active_at, status, created_at, updated_at").eq("id", user.id).maybeSingle();
       setProfile(p);
       if (p?.role === "founder") {
         const { data } = await supabase.from("founder_details").select("*").eq("user_id", user.id).maybeSingle();
