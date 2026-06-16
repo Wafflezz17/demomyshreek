@@ -28,7 +28,7 @@ function ProfileEdit() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const { data: p } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
+      const { data: p } = await supabase.from("profiles").select("id, full_name, headline, bio, avatar_url, role, location, location_city, location_country, linkedin_url, verification_status, trust_tier, profile_completeness, is_founding_member, last_active_at, status, created_at, updated_at").eq("id", user.id).maybeSingle();
       setProfile(p);
       const table = p?.role === "founder" ? "founder_details" : p?.role === "investor" ? "investor_details" : "professional_details";
       const { data: d } = await supabase.from(table).select("*").eq("user_id", user.id).maybeSingle();
