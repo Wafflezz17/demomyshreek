@@ -761,6 +761,29 @@ export type Database = {
     }
     Functions: {
       accept_connection: { Args: { _connection_id: string }; Returns: string }
+      admin_list_pending_profiles: {
+        Args: never
+        Returns: {
+          created_at: string
+          full_name: string
+          headline: string
+          id: string
+          linkedin_url: string
+          location: string
+          location_city: string
+          location_country: string
+          profile_completeness: number
+          role: Database["public"]["Enums"]["app_role"]
+        }[]
+      }
+      get_my_approval: {
+        Args: never
+        Returns: {
+          approval_status: Database["public"]["Enums"]["approval_status"]
+          rejection_reason: string
+          role: Database["public"]["Enums"]["app_role"]
+        }[]
+      }
       get_or_create_conversation: {
         Args: { _other_user: string }
         Returns: string

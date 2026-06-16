@@ -57,13 +57,10 @@ function AdminPage() {
   }, [user]);
 
   async function loadPending() {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id, full_name, role, headline, location, location_country, location_city, linkedin_url, profile_completeness, created_at")
-      .eq("approval_status", "pending")
-      .order("created_at", { ascending: true });
+    const { data } = await supabase.rpc("admin_list_pending_profiles");
     setPending((data ?? []) as PendingUser[]);
   }
+
 
   if (isAdmin === null) return <div className="py-20 text-center">Loading...</div>;
   if (!isAdmin) return <div className="py-20 text-center text-muted-foreground">Not authorized.</div>;

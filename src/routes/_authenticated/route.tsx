@@ -28,20 +28,19 @@ function AuthedLayout() {
   useEffect(() => {
     if (!user) return;
     supabase
-      .from("profiles")
-      .select("approval_status, rejection_reason, role")
-      .eq("id", user.id)
+      .rpc("get_my_approval")
       .maybeSingle()
       .then(({ data }) => {
-        const isAdmin = data?.role === "admin";
+        const isAdmin = (data as any)?.role === "admin";
         setState({
           loading: false,
-          status: (data?.approval_status as any) ?? "pending",
-          reason: data?.rejection_reason ?? null,
+          status: ((data as any)?.approval_status as any) ?? "pending",
+          reason: (data as any)?.rejection_reason ?? null,
           isAdmin,
         });
       });
   }, [user, role]);
+
 
   if (loading || state.loading) {
     return (
