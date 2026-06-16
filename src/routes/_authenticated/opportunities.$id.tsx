@@ -34,7 +34,7 @@ function OpportunityDetail() {
       if (!o) return;
       setOpp(o);
       supabase.rpc("recompute_profile_completeness", { _user_id: o.owner_id }).then(() => {});
-      const { data: p } = await supabase.from("profiles").select("*").eq("id", o.owner_id).maybeSingle();
+      const { data: p } = await supabase.from("profiles").select("id, full_name, headline, bio, avatar_url, role, location, location_city, location_country, linkedin_url, verification_status, trust_tier, profile_completeness, is_founding_member, last_active_at, status, created_at, updated_at").eq("id", o.owner_id).maybeSingle();
       setOwner(p);
       const { data: ep } = await supabase.from("entrepreneur_profiles").select("*").eq("user_id", o.owner_id).maybeSingle();
       setOwnerEntrepreneur(ep);
